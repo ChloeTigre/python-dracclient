@@ -34,3 +34,6 @@ PRIMARY_STATUS = {
 
 # binary unit constants
 UNITS_KI = 2 ** 10
+
+# Requests timeout
+SSL_TIMEOUT = 2

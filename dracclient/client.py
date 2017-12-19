@@ -46,6 +46,7 @@ class DRACClient(object):
             protocol='https',
             ssl_retries=constants.DEFAULT_WSMAN_SSL_ERROR_RETRIES,
             ssl_retry_delay=constants.DEFAULT_WSMAN_SSL_ERROR_RETRY_DELAY_SEC,
+            ssl_timeout=constants.SSL_TIMEOUT
             ready_retries=constants.DEFAULT_IDRAC_IS_READY_RETRIES,
             ready_retry_delay=(
                 constants.DEFAULT_IDRAC_IS_READY_RETRY_DELAY_SEC)):
@@ -60,6 +61,7 @@ class DRACClient(object):
         :param ssl_retries: number of resends to attempt on SSL failures
         :param ssl_retry_delay: number of seconds to wait between
                                 retries on SSL failures
+        :param ssl_timeout: number of seconds before aborting SSL request
         :param ready_retries: number of times to check if the iDRAC is
                               ready
         :param ready_retry_delay: number of seconds to wait between
@@ -67,7 +69,7 @@ class DRACClient(object):
         """
         self.client = WSManClient(host, username, password, port, path,
                                   protocol, ssl_retries, ssl_retry_delay,
-                                  ready_retries, ready_retry_delay)
+                                  ssl_timeout, ready_retries, ready_retry_delay)
         self._job_mgmt = job.JobManagement(self.client)
         self._power_mgmt = bios.PowerManagement(self.client)
         self._boot_mgmt = bios.BootManagement(self.client)

@@ -45,7 +45,8 @@ class Client(object):
                  protocol='https',
                  ssl_retries=constants.DEFAULT_WSMAN_SSL_ERROR_RETRIES,
                  ssl_retry_delay=(
-                     constants.DEFAULT_WSMAN_SSL_ERROR_RETRY_DELAY_SEC)):
+                     constants.DEFAULT_WSMAN_SSL_ERROR_RETRY_DELAY_SEC),
+                 ssl_timeout=constants.SSL_TIMEOUT):
         """Creates client object
 
         :param host: hostname or IP of the DRAC interface
@@ -57,6 +58,7 @@ class Client(object):
         :param ssl_retries: number of resends to attempt on SSL failures
         :param ssl_retry_delay: number of seconds to wait between
                                 retries on SSL failures
+        :param ssl_timeout: number of seconds before aborting SSL query
         """
 
         self.host = host
@@ -67,6 +69,7 @@ class Client(object):
         self.protocol = protocol
         self.ssl_retries = ssl_retries
         self.ssl_retry_delay = ssl_retry_delay
+        self.ssl_timeout = ssl_timeout
         self.endpoint = ('%(protocol)s://%(host)s:%(port)s%(path)s' % {
             'protocol': self.protocol,
             'host': self.host,
@@ -87,6 +90,7 @@ class Client(object):
                                                      self.password),
                     data=payload,
                     # TODO(ifarkas): enable cert verification
+                    timeout=self.ssl_timeout,
                     verify=False)
                 break
             except (requests.exceptions.ConnectionError,
