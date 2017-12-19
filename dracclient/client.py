@@ -582,7 +582,8 @@ class WSManClient(wsman.Client):
             ssl_retry_delay=constants.DEFAULT_WSMAN_SSL_ERROR_RETRY_DELAY_SEC,
             ready_retries=constants.DEFAULT_IDRAC_IS_READY_RETRIES,
             ready_retry_delay=(
-                constants.DEFAULT_IDRAC_IS_READY_RETRY_DELAY_SEC)):
+                constants.DEFAULT_IDRAC_IS_READY_RETRY_DELAY_SEC),
+            ssl_timeout=constants.SSL_TIMEOUT):
         """Creates client object
 
         :param host: hostname or IP of the DRAC interface
@@ -598,6 +599,7 @@ class WSManClient(wsman.Client):
                               ready
         :param ready_retry_delay: number of seconds to wait between
                                   checks if the iDRAC is ready
+        :param ssl_timeout: number of seconds before aborting SSL request
         """
         super(WSManClient, self).__init__(host, username, password,
                                           port, path, protocol, ssl_retries,
